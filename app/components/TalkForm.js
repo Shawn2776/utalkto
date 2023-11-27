@@ -208,7 +208,7 @@ function TalkForm() {
     }
 
     try {
-      const res = await fetch("http://localhost:3000/api/Talks", {
+      const res = await fetch("/api/Talks", {
         method: "POST",
         headers: {
           "Content-type": "application/json",

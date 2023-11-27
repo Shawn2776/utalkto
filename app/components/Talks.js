@@ -4,7 +4,7 @@ import { options } from "../api/auth/[...nextauth]/options";
 
 const getTalks = async () => {
   try {
-    const res = await fetch("http://localhost:3000/api/Talks", {
+    const res = await fetch("/api/Talks", {
       method: "GET",
       cache: "no-store",
     });
