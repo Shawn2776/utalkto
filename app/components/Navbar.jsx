@@ -17,10 +17,6 @@ async function Navbar() {
           )}
         </div>
         <div className="flex gap-10">
-          {/* <Link href="/CreateUser">Create User</Link>
-          <Link href="/ClientMember">Client Member</Link>
-          <Link href="/Member">Member</Link>
-          <Link href="/Public">Public</Link> */}
           {session ? (
             <Link href="/api/auth/signout?callbackUrl=/">Logout</Link>
           ) : (

@@ -1,6 +1,4 @@
 import GoogleProvider from "next-auth/providers/google";
-// import CredentialsProvider from "next-auth/providers/credentials";
-// import bcrypt from "bcrypt";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
@@ -121,44 +119,3 @@ export const options = {
     },
   },
 };
-  // CredentialsProvider({
-  //   name: "Credentials",
-  //   credentials: {
-  //     email: {
-  //       label: "Email: ",
-  //       type: "text",
-  //       placeholder: "username@domain.com",
-  //     },
-  //     password: {
-  //       label: "Password: ",
-  //       type: "password",
-  //       placeholder: ".........",
-  //     },
-  //   },
-  //   async authorize(credentials) {
-  //     try {
-  //       const foundUser = await User.findOne({ email: credentials.email })
-  //         .lean()
-  //         .exec();
-
-  //       if (foundUser) {
-  //         console.log("User Exists");
-  //         const match = await bcrypt.compare(
-  //           credentials.password,
-  //           foundUser.password
-  //         );
-
-  //         if (match) {
-  //           // console.log("User Exists");
-  //           delete foundUser.password;
-
-  //           foundUser["role"] = "Unverified Email";
-  //           return foundUser;
-  //         }
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //     return null;
-  //   },
-  // }),

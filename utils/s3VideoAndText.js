@@ -1,6 +1,4 @@
 import { PrismaClient } from "@prisma/client";
-import React from "react";
-import uploadFileToS3 from "./uploadFileToS3";
 
 async function S3VideoAndText(text, video, id) {
   const prisma = new PrismaClient();

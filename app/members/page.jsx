@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import React from "react";
 import { options } from "../api/auth/[...nextauth]/options";
 import { redirect } from "next/navigation";
-import TalkForm3 from "../components/TalkForm3";
+import TalkForm3 from "../components/TalkForm";
 import Talks from "../components/Talks";
 
 function Members() {
