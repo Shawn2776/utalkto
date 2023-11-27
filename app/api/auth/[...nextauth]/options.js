@@ -119,5 +119,3 @@ export const options = {
     },
   },
 };
-
-export const dynamic = "force-dynamic";

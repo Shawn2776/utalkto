@@ -48,4 +48,3 @@ export default async function Talks() {
   );
 }
 
-export const dynamic = "force-dynamic";

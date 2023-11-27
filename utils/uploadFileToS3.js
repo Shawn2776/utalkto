@@ -22,4 +22,4 @@ async function uploadFileToS3(file, fileNameIn) {
 }
 
 export default uploadFileToS3;
-export const dynamic = "force-dynamic";
+

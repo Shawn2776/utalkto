@@ -14,5 +14,3 @@ function EmbedPlayer({ src }) {
 }
 
 export default EmbedPlayer;
-
-export const dynamic = "force-dynamic";

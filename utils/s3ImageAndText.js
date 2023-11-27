@@ -19,4 +19,3 @@ async function S3ImageAndText(text, image, id) {
 
 export default S3ImageAndText;
 
-export const dynamic = "force-dynamic";

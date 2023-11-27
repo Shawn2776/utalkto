@@ -7,5 +7,3 @@ const AuthProvider = ({ children }) => {
 };
 
 export default AuthProvider;
-
-export const dynamic = "force-dynamic";

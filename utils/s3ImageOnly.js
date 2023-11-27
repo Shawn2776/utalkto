@@ -18,4 +18,3 @@ async function S3ImageOnly(image, id) {
 
 export default S3ImageOnly;
 
-export const dynamic = "force-dynamic";
