@@ -18,3 +18,5 @@ async function S3VideoAndText(text, video, id) {
 }
 
 export default S3VideoAndText;
+
+export const dynamic = "force-dynamic";

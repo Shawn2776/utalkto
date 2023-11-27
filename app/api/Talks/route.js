@@ -91,3 +91,5 @@ export async function GET(req, res) {
     res.status(500).json({ error: "Error fetching talks" });
   }
 }
+
+export const dynamic = "force-dynamic";

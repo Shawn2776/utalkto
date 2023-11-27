@@ -101,3 +101,5 @@ function Talk({
 }
 
 export default Talk;
+
+export const dynamic = "force-dynamic";

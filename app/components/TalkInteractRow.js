@@ -55,3 +55,5 @@ function TalkInteractRow({
 }
 
 export default TalkInteractRow;
+
+export const dynamic = "force-dynamic";

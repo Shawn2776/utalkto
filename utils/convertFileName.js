@@ -55,3 +55,5 @@ function convertFileName(fileNameIn, origination) {
 }
 
 export default convertFileName;
+
+export const dynamic = "force-dynamic";

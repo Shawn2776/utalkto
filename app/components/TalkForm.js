@@ -307,3 +307,5 @@ function TalkForm() {
 
 
 export default TalkForm;
+
+export const dynamic = "force-dynamic";

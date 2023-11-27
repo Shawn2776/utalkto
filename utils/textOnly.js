@@ -17,3 +17,5 @@ async function TextOnly(text, id) {
 }
 
 export default TextOnly;
+
+export const dynamic = "force-dynamic";

@@ -25,3 +25,5 @@ function Members() {
 }
 
 export default Members;
+
+export const dynamic = "force-dynamic";

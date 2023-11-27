@@ -17,3 +17,5 @@ async function S3VideoOnly(video, id) {
 }
 
 export default S3VideoOnly;
+
+export const dynamic = "force-dynamic";
