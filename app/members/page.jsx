@@ -2,8 +2,8 @@ import { getServerSession } from "next-auth";
 import React from "react";
 import { options } from "../api/auth/[...nextauth]/options";
 import { redirect } from "next/navigation";
-import TalkForm3 from "../components/TalkForm";
-import Talks from "../components/Talks";
+import TalkForm from "../components/TalkForm";
+import TalkFeed from "../components/TalkFeed";
 
 function Members() {
   const session = getServerSession(options);
@@ -17,8 +17,8 @@ function Members() {
       <div></div>
       <div className="max-w-2xl mx-auto">
         {/* <TalkForm /> */}
-        <TalkForm3 />
-        <Talks />
+        <TalkForm />
+        <TalkFeed />
       </div>
     </div>
   );

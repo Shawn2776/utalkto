@@ -4,20 +4,20 @@ import { options } from "../api/auth/[...nextauth]/options";
 
 const getTalks = async () => {
   try {
-    const res = await fetch("/api/Talks", {
+    const response = await fetch("http://localhost:3000/api/Talks", {
       method: "GET",
       cache: "no-store",
     });
 
-    if (res.ok) {
-      return res.json();
+    if (response.ok) {
+      return response.json();
     }
   } catch (error) {
     console.log(error);
   }
 };
 
-export default async function Talks() {
+export default async function TalkFeed() {
   const { data: session, status } = getServerSession(options);
 
   if (status === "loading") {
@@ -47,4 +47,3 @@ export default async function Talks() {
     </>
   );
 }
-
