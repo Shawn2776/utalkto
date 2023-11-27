@@ -1,0 +1,94 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model User {
+  id    Int     @id @default(autoincrement())
+  email String  @unique
+  name  String?
+  profilePic String?
+  emailVerified Boolean
+  roleId Int
+  role   Role @relation(fields: [roleId], references: [id])
+  username String @unique
+  location String?
+  description String?
+  url String?
+  friends  User[]   @relation("UserFriends")
+  friendOf User[]   @relation("UserFriends")
+  followers User[] @relation("UserFollowers")
+  follows User[] @relation("UserFollowers")
+  likes Like[]
+  dislikes Dislike[]
+  retalks    Talk[]     @relation("Retalks")
+  comments   BackTalk[]
+  lang String @default("en")
+  talks Talk[]
+
+  @@index([roleId])
+}
+
+model Role {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  users User[]
+}
+
+model Talk {
+  id    Int     @id @default(autoincrement())
+  text  String?
+  image String?
+  video String?
+  ownerId Int
+  likes Like[]
+  dislikes Dislike[]
+  retalkedBy User[]     @relation("Retalks")
+  backTalks   BackTalk[]
+  owner User @relation(fields: [ownerId], references: [id])
+
+
+  @@index([ownerId])
+}
+
+model Like {
+  id      Int   @id @default(autoincrement())
+  owner    User  @relation(fields: [ownerId], references: [id])
+  ownerId  Int
+  talk    Talk  @relation(fields: [talkId], references: [id])
+  talkId  Int
+
+  @@index([ownerId])
+  @@index([talkId])
+}
+
+model Dislike {
+  id      Int   @id @default(autoincrement())
+  owner    User  @relation(fields: [ownerId], references: [id])
+  ownerId  Int
+  talk    Talk  @relation(fields: [talkId], references: [id])
+  talkId  Int
+
+  @@index([ownerId])
+  @@index([talkId])
+}
+
+model BackTalk {
+  id       Int      @id @default(autoincrement())
+  content  String
+  talk     Talk     @relation(fields: [talkId], references: [id])
+  talkId   Int
+  owner   User     @relation(fields: [ownerId], references: [id])
+  ownerId Int
+
+  @@index([talkId])
+  @@index([ownerId])
+}
