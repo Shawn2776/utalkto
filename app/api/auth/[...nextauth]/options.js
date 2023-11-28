@@ -22,7 +22,6 @@ export const options = {
       clientSecret: process.env.GOOGLE_SECRET,
     }),
   ],
-  secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
   },
@@ -119,4 +118,5 @@ export const options = {
       return session;
     },
   },
+  secret: process.env.NEXTAUTH_SECRET,
 };
