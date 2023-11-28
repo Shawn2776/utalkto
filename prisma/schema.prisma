@@ -1,0 +1,111 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model BackTalk {
+  id      Int    @id @default(autoincrement())
+  content String
+  talkId  Int
+  ownerId Int
+  tags String
+  isNSFW Boolean
+  is18Plus  Boolean
+
+  @@index([ownerId])
+  @@index([talkId])
+}
+
+model Dislike {
+  id      Int @id @default(autoincrement())
+  ownerId Int
+  talkId  Int
+
+  @@index([ownerId])
+  @@index([talkId])
+}
+
+model Like {
+  id      Int @id @default(autoincrement())
+  ownerId Int
+  talkId  Int
+
+  @@index([ownerId])
+  @@index([talkId])
+}
+
+model Role {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+}
+
+model Talk {
+  id      Int     @id @default(autoincrement())
+  text    String?
+  image   String?
+  video   String?
+  ownerId Int
+  categories Category[] @relation("TalksToCategories")
+  tags String?
+  isNSFW Boolean @default(false)
+  is18Plus  Boolean @default(false)
+
+  @@index([ownerId])
+
+}
+
+model User {
+  id            Int     @id @default(autoincrement())
+  email         String  @unique
+  name          String?
+  profilePic    String?
+  emailVerified Boolean
+  roleId        Int
+  username      String  @unique
+  location      String?
+  description   String?
+  url           String?
+  lang          String  @default("en")
+
+  @@index([roleId])
+}
+
+model Retalks {
+  A Int
+  B Int
+  isNSFW Boolean @default(false)
+  is18Plus  Boolean @default(false)
+
+  @@unique([A, B], map: "_Retalks_AB_unique")
+  @@index([B], map: "_Retalks_B_index")
+  @@map("_Retalks")
+}
+
+model UserFollowers {
+  A Int
+  B Int
+
+  @@unique([A, B], map: "_UserFollowers_AB_unique")
+  @@index([B], map: "_UserFollowers_B_index")
+  @@map("_UserFollowers")
+}
+
+model UserFriends {
+  A Int
+  B Int
+
+  @@unique([A, B], map: "_UserFriends_AB_unique")
+  @@index([B], map: "_UserFriends_B_index")
+  @@map("_UserFriends")
+}
+
+model Category {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  talks Talk[] @relation("TalksToCategories") // Use the same relation name as in Talk
+}
