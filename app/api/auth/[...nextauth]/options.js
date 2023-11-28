@@ -7,7 +7,7 @@ export const options = {
     GoogleProvider({
       profile(profile) {
         let userRole;
-        if (profile.email === process.env.ADMIN_EMAIL) {
+        if (profile.email === "shawn.harrington2776@gmail.com") {
           userRole = "admin";
         } else {
           userRole = "user";
@@ -27,7 +27,7 @@ export const options = {
   },
   callbacks: {
     async signIn({ user, account, profile }) {
-      const adminEmail = process.env.ADMIN_EMAIL;
+      const adminEmail = "shawn.harrington2776@gmail.com";
 
       let role = user.email === adminEmail ? "admin" : "user";
 
@@ -87,7 +87,7 @@ export const options = {
         // and you want to ensure the admin always has the admin role.
         if (userInDb.role !== role) {
           userInDb = prisma.user.update({
-            where: { email: process.env.ADMIN_EMAIL },
+            where: { email: "shawn.harrington2776@gmail.com" },
             data: {
               role: {
                 connect: { name: "admin" },
