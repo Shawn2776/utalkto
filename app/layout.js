@@ -1,5 +1,6 @@
-import { Inter, Roboto } from "next/font/google";
+import { Roboto } from "next/font/google";
 import "./globals.css";
+import AuthProvider from "./components/auth/AuthProvider";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -15,11 +16,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`${roboto.className} bg-gradient-to-b from-oxford_blue via-cambridge_blue to-bittersweet min-h-screen`}
-      >
-        {children}
-      </body>
+      <AuthProvider>
+        <body
+          className={`${roboto.className} bg-gradient-to-b from-oxford_blue via-cambridge_blue to-bittersweet min-h-screen`}
+        >
+          {children}
+        </body>
+      </AuthProvider>
     </html>
   );
 }

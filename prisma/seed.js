@@ -12,6 +12,22 @@ async function main() {
     });
   }
 
+  // Seed the `Category` table with multiple categories
+  const categories = [
+    "Technology",
+    "Health",
+    "Finance",
+    "Education",
+    "Lifestyle",
+  ];
+  for (const categoryName of categories) {
+    await prisma.category.upsert({
+      where: { name: categoryName },
+      update: {},
+      create: { name: categoryName },
+    });
+  }
+
   // Seed the `Role` table
   const defaultRole = await prisma.role.upsert({
     where: { name: "user" },
@@ -26,22 +42,7 @@ async function main() {
   //   });
 }
 
-// Seed the `Category` table with multiple categories
-const categories = [
-  "Technology",
-  "Health",
-  "Finance",
-  "Education",
-  "Lifestyle",
-  "Opinion",
-];
-for (const categoryName of categories) {
-  await prisma.category.upsert({
-    where: { name: categoryName },
-    update: {},
-    create: { name: categoryName },
-  });
-}
+
 
 main()
   .catch((e) => {
