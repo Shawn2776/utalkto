@@ -71,11 +71,8 @@ export const options = {
             name: user.name,
             email,
             profilePic,
-            roleId: {
-              connect: {
-                id: role, // Assuming 'name' is the unique field in your `Role` model
-              },
-            },
+            roleId: role, // Assuming 'name' is the unique field in your `Role` model
+
             emailVerified,
             username,
             // Add other fields as necessary
