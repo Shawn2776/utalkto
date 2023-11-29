@@ -73,7 +73,7 @@ export const options = {
             profilePic,
             role: {
               connect: {
-                name: "user", // Assuming 'name' is the unique field in your `Role` model
+                id: 1, // Assuming 'name' is the unique field in your `Role` model
               },
             },
             emailVerified,
