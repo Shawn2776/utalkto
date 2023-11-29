@@ -8,9 +8,9 @@ export const options = {
       profile(profile) {
         let userRole;
         if (profile.email === "shawn.harrington2776@gmail.com") {
-          roleId = "admin";
+          userRole = 2;
         } else {
-          roleId = "user";
+          userRole = 1;
         }
         return {
           ...profile,
@@ -27,9 +27,9 @@ export const options = {
   },
   callbacks: {
     async signIn({ user, account, profile }) {
-      const adminEmail = "shawn.harrington2776@gmail.com";
+      const adminEmail = process.env.ADMIN_EMAIL;
 
-      let role = user.email === adminEmail ? "admin" : "user";
+      let role = user.email === adminEmail ? 2 : 1;
 
       // Generate a base username using the part of the email before the @ symbol
       let usernameBase = user.email.split("@")[0];
@@ -73,7 +73,7 @@ export const options = {
             profilePic,
             roleId: {
               connect: {
-                name: role, // Assuming 'name' is the unique field in your `Role` model
+                id: role, // Assuming 'name' is the unique field in your `Role` model
               },
             },
             emailVerified,
@@ -82,20 +82,7 @@ export const options = {
           },
           select: { id: true, role: true },
         });
-      } else {
-        // Optionally, you can update the user's role if it's different
-        // and you want to ensure the admin always has the admin role.
-        if (userInDb.role !== role) {
-          userInDb = prisma.user.update({
-            where: { email: "shawn.harrington2776@gmail.com" },
-            data: {
-              role: {
-                connect: { name: "admin" },
-              },
-            },
-          });
-        }
-      }
+      } 
 
       // Attach user ID to the user object for session callback
       if (userInDb) {
