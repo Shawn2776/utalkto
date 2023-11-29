@@ -8,14 +8,14 @@ export const options = {
       profile(profile) {
         let userRole;
         if (profile.email === "shawn.harrington2776@gmail.com") {
-          userRole = "admin";
+          roleId = "admin";
         } else {
-          userRole = "user";
+          roleId = "user";
         }
         return {
           ...profile,
           id: profile.sub, // google doesn't provide id
-          role: userRole,
+          roleId: userRole,
         };
       },
       clientId: process.env.GOOGLE_ID,
@@ -73,7 +73,7 @@ export const options = {
             profilePic,
             roleId: {
               connect: {
-                name: "user", // Assuming 'name' is the unique field in your `Role` model
+                name: role, // Assuming 'name' is the unique field in your `Role` model
               },
             },
             emailVerified,
