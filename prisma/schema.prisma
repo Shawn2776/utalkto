@@ -3,87 +3,125 @@ generator client {
 }
 
 datasource db {
-  provider     = "mysql"
-  url          = env("DATABASE_URL")
-  relationMode = "prisma"
+  provider          = "mysql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+  relationMode      = "prisma"
 }
 
-model BackTalk {
-  id      Int    @id @default(autoincrement())
-  content String
-  talkId  Int
+model User {
+  id            Int        @id @default(autoincrement())
+  email         String     @unique
+  name          String?
+  profilePic    String?
+  emailVerified Boolean
+  roleId        Int
+  username      String     @unique
+  location      String?
+  description   String?
+  url           String?
+  lang          String     @default("en")
+  role          Role       @relation(fields: [roleId], references: [id])
+  friends       User[]     @relation("UserFriends")
+  friendOf      User[]     @relation("UserFriends")
+  followers     User[]     @relation("UserFollowers")
+  follows       User[]     @relation("UserFollowers")
+  likes         Like[]
+  dislikes      Dislike[]
+  retalks       Talk[]     @relation("Retalks")
+  comments      BackTalk[]
+  talks         Talk[]
+
+  @@index([roleId])
+}
+
+model Role {
+  id     Int    @id @default(autoincrement())
+  name   String @default("user")
+  userId String
+  user User[]
+}
+
+model Talk {
+  id         Int        @id @default(autoincrement())
+  text       String?
+  image      String?
+  video      String?
+  ownerId    Int
+  tags       String?
+  isNSFW     Boolean    @default(false)
+  is18Plus   Boolean    @default(false)
+  categories Category[] @relation("TalksToCategories")
+  likes      Like[]
+  dislikes   Dislike[]
+  retalkedBy User[]     @relation("Retalks")
+  backTalks  BackTalk[]
+  owner      User       @relation(fields: [ownerId], references: [id])
+
+  @@index([ownerId])
+}
+
+model Category {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  talks Talk[] @relation("TalksToCategories")
+}
+
+model Like {
+  id      Int  @id @default(autoincrement())
   ownerId Int
-  tags String
-  isNSFW Boolean
-  is18Plus  Boolean
+  talkId  Int
+  owner   User @relation(fields: [ownerId], references: [id])
+  talk    Talk @relation(fields: [talkId], references: [id])
 
   @@index([ownerId])
   @@index([talkId])
 }
 
 model Dislike {
-  id      Int @id @default(autoincrement())
+  id      Int  @id @default(autoincrement())
   ownerId Int
   talkId  Int
+  owner   User @relation(fields: [ownerId], references: [id])
+  talk    Talk @relation(fields: [talkId], references: [id])
 
   @@index([ownerId])
   @@index([talkId])
 }
 
-model Like {
-  id      Int @id @default(autoincrement())
-  ownerId Int
-  talkId  Int
+model BackTalk {
+  id       Int     @id @default(autoincrement())
+  content  String
+  talkId   Int
+  ownerId  Int
+  tags     String
+  isNSFW   Boolean
+  is18Plus Boolean
+  talk     Talk    @relation(fields: [talkId], references: [id])
+  owner    User    @relation(fields: [ownerId], references: [id])
 
-  @@index([ownerId])
   @@index([talkId])
-}
-
-model Role {
-  id   Int    @id @default(autoincrement())
-  name String @unique
-}
-
-model Talk {
-  id      Int     @id @default(autoincrement())
-  text    String?
-  image   String?
-  video   String?
-  ownerId Int
-  categories Category[] @relation("TalksToCategories")
-  tags String?
-  isNSFW Boolean @default(false)
-  is18Plus  Boolean @default(false)
-
   @@index([ownerId])
-
-}
-
-model User {
-  id            Int     @id @default(autoincrement())
-  email         String  @unique
-  name          String?
-  profilePic    String?
-  emailVerified Boolean
-  roleId        Int
-  username      String  @unique
-  location      String?
-  description   String?
-  url           String?
-  lang          String  @default("en")
-
-  @@index([roleId])
 }
 
 model Retalks {
-  A Int
-  B Int
-  isNSFW Boolean @default(false)
-  is18Plus  Boolean @default(false)
+  A        Int
+  B        Int
+  isNSFW   Boolean @default(false)
+  is18Plus Boolean @default(false)
 
   @@unique([A, B], map: "_Retalks_AB_unique")
   @@index([B], map: "_Retalks_B_index")
   @@map("_Retalks")
+}
+
+model TalksToCategories {
+  A Int
+  B Int
+
+  @@unique([A, B], map: "_TalksToCategories_AB_unique")
+  @@index([B], map: "_TalksToCategories_B_index")
+  @@map("_TalksToCategories")
 }
 
 model UserFollowers {
@@ -102,10 +140,4 @@ model UserFriends {
   @@unique([A, B], map: "_UserFriends_AB_unique")
   @@index([B], map: "_UserFriends_B_index")
   @@map("_UserFriends")
-}
-
-model Category {
-  id    Int    @id @default(autoincrement())
-  name  String @unique
-  talks Talk[] @relation("TalksToCategories") // Use the same relation name as in Talk
 }
