@@ -11,8 +11,10 @@ datasource db {
 
 model User {
   id            Int        @id @default(autoincrement())
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime?   @updatedAt
   email         String     @unique
-  name          String?
+  name          String
   profilePic    String?
   emailVerified Boolean
   roleId        Int
@@ -37,13 +39,17 @@ model User {
 
 model Role {
   id     Int    @id @default(autoincrement())
-  name   String @default("user")
-  userId String
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime?   @updatedAt
+  name          String @unique
+  userId        String?
   user User[]
 }
 
 model Talk {
   id         Int        @id @default(autoincrement())
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
   text       String?
   image      String?
   video      String?
@@ -68,47 +74,55 @@ model Category {
 }
 
 model Like {
-  id      Int  @id @default(autoincrement())
-  ownerId Int
-  talkId  Int
-  owner   User @relation(fields: [ownerId], references: [id])
-  talk    Talk @relation(fields: [talkId], references: [id])
+  id            Int        @id @default(autoincrement())
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime?   @updatedAt
+  ownerId       Int
+  talkId        Int
+  owner         User       @relation(fields: [ownerId], references: [id])
+  talk          Talk       @relation(fields: [talkId], references: [id])
 
   @@index([ownerId])
   @@index([talkId])
 }
 
 model Dislike {
-  id      Int  @id @default(autoincrement())
-  ownerId Int
-  talkId  Int
-  owner   User @relation(fields: [ownerId], references: [id])
-  talk    Talk @relation(fields: [talkId], references: [id])
+  id            Int        @id @default(autoincrement())
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime?   @updatedAt
+  ownerId       Int
+  talkId        Int
+  owner         User       @relation(fields: [ownerId], references: [id])
+  talk          Talk       @relation(fields: [talkId], references: [id])
 
   @@index([ownerId])
   @@index([talkId])
 }
 
 model BackTalk {
-  id       Int     @id @default(autoincrement())
-  content  String
-  talkId   Int
-  ownerId  Int
-  tags     String
-  isNSFW   Boolean
-  is18Plus Boolean
-  talk     Talk    @relation(fields: [talkId], references: [id])
-  owner    User    @relation(fields: [ownerId], references: [id])
+  id            Int        @id @default(autoincrement())
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime?   @updatedAt
+  content       String
+  talkId        Int
+  ownerId       Int
+  tags          String
+  isNSFW        Boolean
+  is18Plus      Boolean
+  talk          Talk       @relation(fields: [talkId], references: [id])
+  owner         User       @relation(fields: [ownerId], references: [id])
 
   @@index([talkId])
   @@index([ownerId])
 }
 
 model Retalks {
-  A        Int
-  B        Int
-  isNSFW   Boolean @default(false)
-  is18Plus Boolean @default(false)
+  A             Int
+  B             Int
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime?   @updatedAt
+  isNSFW        Boolean    @default(false)
+  is18Plus      Boolean    @default(false)
 
   @@unique([A, B], map: "_Retalks_AB_unique")
   @@index([B], map: "_Retalks_B_index")
@@ -125,8 +139,10 @@ model TalksToCategories {
 }
 
 model UserFollowers {
-  A Int
-  B Int
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime?   @updatedAt
+  A             Int
+  B             Int
 
   @@unique([A, B], map: "_UserFollowers_AB_unique")
   @@index([B], map: "_UserFollowers_B_index")
@@ -134,8 +150,10 @@ model UserFollowers {
 }
 
 model UserFriends {
-  A Int
-  B Int
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime?   @updatedAt
+  A             Int
+  B             Int
 
   @@unique([A, B], map: "_UserFriends_AB_unique")
   @@index([B], map: "_UserFriends_B_index")

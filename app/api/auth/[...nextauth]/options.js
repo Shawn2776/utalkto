@@ -8,9 +8,9 @@ export const options = {
       profile(profile) {
         let userRole;
         if (profile.email === "shawn.harrington2776@gmail.com") {
-          userRole = 2;
-        } else {
           userRole = 1;
+        } else {
+          userRole = 2;
         }
         return {
           ...profile,
@@ -29,7 +29,7 @@ export const options = {
     async signIn({ user, account, profile }) {
       const adminEmail = process.env.ADMIN_EMAIL;
 
-      let role = user.email === adminEmail ? 2 : 1;
+      let role = user.email === adminEmail ? 1 : 2;
 
       // Generate a base username using the part of the email before the @ symbol
       let usernameBase = user.email.split("@")[0];

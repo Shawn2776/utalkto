@@ -1,54 +1,32 @@
 const { PrismaClient } = require("@prisma/client");
+const { categories, users } = require("./data");
+
 const prisma = new PrismaClient();
 
-async function main() {
-  // Seed the `Role` table with multiple roles
-  const roles = ["admin", "editor", "moderator", "user", "other", "reserved"];
-  for (const roleName of roles) {
-    await prisma.role.upsert({
-      where: { name: roleName },
-      update: {},
-      create: { name: roleName },
+const load = async () => {
+  try {
+    prisma.category.createMany({
+      data: categories,
     });
-  }
 
-  // Seed the `Category` table with multiple categories
-  const categories = [
-    "Technology",
-    "Health",
-    "Finance",
-    "Education",
-    "Lifestyle",
-  ];
-  for (const categoryName of categories) {
-    await prisma.category.upsert({
-      where: { name: categoryName },
-      update: {},
-      create: { name: categoryName },
+    console.log("Categories are created");
+
+    // prisma.role.createMany({
+    //   data: roles,
+    // });
+
+    // console.log("Roles are created");
+
+    prisma.user.createMany({
+      data: users,
     });
-  }
 
-  // Seed the `Role` table
-  const defaultRole = await prisma.role.upsert({
-    where: { name: "user" },
-    update: {},
-    create: { name: "user" },
-  });
-
-  //   // Update existing `User` records with the default role
-  //   const updateUserRoles = await prisma.user.updateMany({
-  //     where: { roleId: null }, // or any condition that identifies users without roles
-  //     data: { roleId: defaultRole.id },
-  //   });
-}
-
-
-
-main()
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
-  })
-  .finally(async () => {
+    console.log("Users are created");
+  } catch (error) {
+    console.log(error);
+  } finally {
     await prisma.$disconnect();
-  });
+  }
+};
+
+load();
